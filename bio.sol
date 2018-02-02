@@ -16,7 +16,7 @@ contract Bio {
        be used to implement access control
     */
 
-      function Bio (string _name) {
+    function Bio (string _name) {
          owner = msg.sender;
          name = _name;
      }
