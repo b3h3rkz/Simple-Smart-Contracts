@@ -30,24 +30,25 @@ contract Escrow {
         _;
     }
     
-    function Escrow (address _buyer, address _seller, address _arbiter){
+    function Escrow (address _buyer, address _seller, address _arbiter) {
         buyer = _buyer;
         seller = _seller;
         arbiter =  _arbiter;
     }
     
-    function sendPayment() isBuyer isState(State.AWAITING_PAYMENT) payable {
+    function transferPayment() isBuyer isState(State.AWAITING_PAYMENT) payable {
          currentState = State.AWAITING_DELIVERY;
     }
-    
+
+
     function confirmItemDelivery () isSeller isState (State.AWAITING_DELIVERY) {
         currentState = State.COMPLETED;
-        seller.send(this.balance);
+        seller.transfer(this.balance);
     }
     
-    function refundPayment () isArbiter isState(State.AWAITING_DELIVERY){
+    function refundPayment () isArbiter isState(State.AWAITING_DELIVERY) {
         currentState = State.REFUNDED;
-        buyer.send(this.balance);
+        buyer.transfer(this.balance);
     }
     
 }
